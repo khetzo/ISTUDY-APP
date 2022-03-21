@@ -238,7 +238,7 @@ function StudentHome({ navigation }) {
     <TouchableOpacity
       style={styles.itemContainer}
       onPress={() => {
-        alert("commiiiii");
+        alert("ciiiii");
       }}
     >
 
