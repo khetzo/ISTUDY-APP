@@ -69,10 +69,11 @@ const SingUp = ({ navigation }) => {
         .createUserWithEmailAndPassword(userEmail.trim(), userPassword.trim())
         .then(() => {
           //saving  each data to the spacefic Announcement email to useremail password to userpassword ect
+         let SchoolName=userName
           firebase
             .database()
             .ref(
-              `School/Grade/Users/${
+              `School/${SchoolName}/Grade/Users/${
                 firebase.auth().currentUser.uid
               }/PersonalData`
             )
@@ -139,7 +140,7 @@ const SingUp = ({ navigation }) => {
         <TouchableOpacity
           style={styles.buttonStyle}
           activeOpacity={0.5}
-          onPress={() => navigation.navigate("SchoolAdmin")}
+          onPress={() => navigation.navigate("MainScreen")}
         >
           <Text style={styles.buttonTextStyle}>Login Now</Text>
         </TouchableOpacity>
@@ -194,7 +195,7 @@ const SingUp = ({ navigation }) => {
               style={styles.inputStyle}
               onChangeText={(userName) => setUserName(userName)}
              underlineColorAndroid="#f000"
-              placeholder="Enter Name"
+              placeholder="School Name"
               placeholderTextColor="#AEAEAE"
               autoCapitalize="sentences"
               returnKeyType="next"

@@ -3,20 +3,18 @@ import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import firebase from "firebase";
-
 // Import all available files for navigation parpose
 import LandingPage from "./scr/Authontication/LandingPage";
 import LogIn from "./scr/Authontication/LogIn";
 import SignUp from "./scr/Authontication/SingUp";
 import Splash from "./scr/Componet/Splash";
+
 import MainScreen from "./scr/MainScreen";
 import VideosScreen from "./scr/VideosScreen";
 import Documment from "./scr/Documment";
 import Marks from "./scr/Marks";
 
-//thise page might not be used
 import Studentpage from "./scr/Studentpage";
-
 //For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyBPsCql9__xc1ctRAbvMmc1b40_disItRQ",
@@ -80,6 +78,7 @@ export default function App() {
           options={{ headerShown: false }}
         />
 
+        
         <Stack.Screen
           name="MainScreen"
           component={MainScreen}
