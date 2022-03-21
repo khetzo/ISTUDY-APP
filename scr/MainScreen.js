@@ -13,6 +13,7 @@ import {
   Image,
 } from "react-native";
 import Header from "./Componet/Header";
+import { NavigationContainer } from "@react-navigation/native";
 
 import { Ionicons, Feather, Entypo } from "react-native-vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -55,7 +56,7 @@ const SubjectData = [
 function TeachersAdminHome({ navigation }) {
   return (
     <View style={styles.container}>
-      <Header navigation={navigation} />
+    
       {/** */}
       <ScrollView
         contentContainerStyle={{
@@ -237,9 +238,8 @@ function StudentHome({ navigation }) {
   const HoldingSubjectInfo = ({ item, navigation }) => (
     <TouchableOpacity
       style={styles.itemContainer}
-      onPress={() => {
-        alert("ciiiii");
-      }}
+      onPress={() => navigation.navigate("Login")}
+     
     >
 
     
@@ -390,7 +390,7 @@ function StudentHome({ navigation }) {
 function Email({ navigation }) {
   return (
     <View style={styles.container}>
-      <Header navigation={navigation} />
+    <Header navigation={navigation} />
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <Text>Email</Text>
       </View>
@@ -428,7 +428,8 @@ function Profile({ navigation }) {
   );
 }
 //check if user is a student or a techer then locate them to the axect page
-function IdentifyUser() {
+/*
+function IdentifyUser({navigation}) {
   let k = 1;
   if (k == 1) {
     return <StudentHome />;
@@ -436,15 +437,15 @@ function IdentifyUser() {
     return <TeachersAdminHome />;
   }
 }
-
+*/
 const Tab = createBottomTabNavigator();
-// <Header navigation={navigation} />
+<Header navigation={navigation} />
 
 const MainScreen = ({ navigation }) => {
   return (
     <Tab.Navigator
-      initialRouteName="IdentifyUser"
-      // initialRouteName="TeachersAdminHome"
+    //  initialRouteName="IdentifyUser"
+      initialRouteName="TeachersAdminHome"
       //
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
@@ -489,19 +490,19 @@ const MainScreen = ({ navigation }) => {
         tabBarActiveTintColor: "tomato",
         tabBarInactiveTintColor: "gray",
       })}
-    >
+    >   {/** 
       <Tab.Screen
         name="Home"
         options={{ headerShown: false }}
         component={IdentifyUser}
       />
-      {/** 
+      */}
       <Tab.Screen
         name="Home"
         options={{ headerShown: false }}
         component={TeachersAdminHome}
       />
-      */}
+   
       <Tab.Screen
         name="Send Email"
         options={{ headerShown: false }}
