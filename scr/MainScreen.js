@@ -217,6 +217,7 @@ function Email({ navigation }) {
     </View>
   );
 }
+//-------------------------------------------------------------------------------------
 function ISTUDY({ navigation }) {
   return (
     <View style={styles.container}>

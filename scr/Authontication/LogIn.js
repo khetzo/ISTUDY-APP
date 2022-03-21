@@ -48,8 +48,12 @@ const LogIn = ({ navigation }) => {
         .auth()
         .signInWithEmailAndPassword(existEmail, existPassword)
         .then(() => {
+         let SchoolName=userName
+
           let UserId = firebase.auth().currentUser.uid;
-          firebase.database().ref(`User/${UserId}/School/ParsonalData`).update({
+          firebase.database().ref(`School/${SchoolName}/Grade/Users/${
+            UserId 
+          }/PersonalData`).update({
             lastSeen: Date.now(),
           });
 //if (existPassword != "  new date.tosting(3) plus id.tosting(5)to admin page")
@@ -72,13 +76,16 @@ const LogIn = ({ navigation }) => {
         contentContainerStyle={{
           flex: 1,
           justifyContent: "center",
-          alignContent: "center",
+          //alignContent: "center",
+         // backgroundColor:"green"
         }}
       >
         <View
           style={{
-            height: inputPressed ? DEVICE_HEIGHT * 0.89 : DEVICE_HEIGHT * 0.7,
-            // backgroundColor:"red",
+            height: inputPressed ? DEVICE_HEIGHT * 0.89 : DEVICE_HEIGHT * 0.99,
+             //backgroundColor:"red",
+          justifyContent: "center",
+
           }}
         >
           <KeyboardAvoidingView>
@@ -105,7 +112,7 @@ const LogIn = ({ navigation }) => {
             <Image
                   style={{
                      width: screenWidth * 0.80,
-                    height: screenWidth * 0.60,
+                    height: screenWidth * 0.15,
                   }}
                   source={require("../Image/icon2.png")}
                 />
@@ -153,7 +160,7 @@ const LogIn = ({ navigation }) => {
               
             </View>
             <Text
-              style={[styles.registerTextStyle, { color: "black", alignSelf:"flex-start",marginLeft:30,marginVertical:-5 }]}
+              style={[styles.registerTextStyle, { color: "black", alignSelf:"flex-start",marginLeft:40, }]}
              // onPress={() => navigation.navigate("")}
             >
               Forgot Password ?
@@ -232,7 +239,7 @@ elevation: 13,
   logostyle2:{
     width: screenWidth * 0.80,
     height: deviceHeight * 0.07,  
-    backgroundColor: "yellow",
+  //  backgroundColor: "yellow",
     alignSelf: "center",
     marginBottom: 20,
     //alignItems: "center",
@@ -274,6 +281,6 @@ elevation: 13,
     fontWeight: "bold",
     fontSize: 14,
     alignSelf: "center",
-    padding: 10,
+    //padding: 10,
   },
 });

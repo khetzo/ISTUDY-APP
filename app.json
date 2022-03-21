@@ -18,12 +18,11 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier" :"com.istudycompany.ISTUDY"
-      
+      "bundleIdentifier": "com.istudycompany.ISTUDY"
     },
     "android": {
-      "package":"com.istudycompany.ISTUDY",
-      "buildNumber":"1.0.0",
+      "package": "com.istudycompany.ISTUDY",
+      "buildNumber": "1.0.0",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
@@ -32,6 +31,7 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "description": "try to brake the log in page and sing nup"
+    "description": "check if its responsive to all screens ios and android",
+    "githubUrl": "https://github.com/khetzo/ISTUDY-APP.git"
   }
 }
