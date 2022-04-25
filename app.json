@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "ISTUDY",
-    "slug": "ISTUDY",
+    "slug": "khetzo",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -22,7 +22,6 @@
     },
     "android": {
       "package": "com.istudycompany.ISTUDY",
-      "buildNumber": "1.0.0",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
@@ -31,7 +30,6 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "description": "check if its responsive to all screens ios and android",
-    "githubUrl": "https://github.com/khetzo/ISTUDY-APP.git"
+    "description": "check if its responsive to all screens ios and android"
   }
 }
