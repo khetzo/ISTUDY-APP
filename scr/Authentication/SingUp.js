@@ -35,7 +35,7 @@ const SingUp = ({ navigation }) => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [midleInputPressed, setMidleInputPressed] = useState(false);
+  const [refCode, setRefCode] = useState("");
 
   const [loading, setLoading] = useState(false);
   const [errortext, setErrortext] = useState("");
@@ -45,6 +45,27 @@ const SingUp = ({ navigation }) => {
   const phoneNumberInputRef = createRef();
   const passwordInputRef = createRef();
   const ConfpasswordInputRef = createRef();
+
+  const schoolsRefs = [
+    {
+      schoolName: "Mbilwi High School",
+      learnerCode: "Mbilwi22",
+      AdminCode: "Admin@Mbilwi22",
+      TeacherCode: "Teacher@Mbilwi22",
+    },
+    {
+      schoolName: "Tshivhase Secondary School",
+      learnerCode: "Tshivhase-SS",
+      AdminCode: "Admin@Tshivhase-SS",
+      TeacherCode: "Teacher@Tshivhase-SS",
+    },
+    {
+      schoolName: "Mukula Integrated School",
+      learnerCode: "MIS2022",
+      adminCode: "Admin@MIS2022",
+      teacherCode: "Teacher@MIS2022",
+    },
+  ];
 
   const handleSubmitButton = () => {
     // setErrortext('');
@@ -63,41 +84,62 @@ const SingUp = ({ navigation }) => {
     } else if (userPassword !== confirmPassword) {
       alert("Passwords do not match");
     } else {
-      //lets send data to the database
-      firebase
-        .auth()
-        .createUserWithEmailAndPassword(userEmail.trim(), userPassword.trim())
-        .then(() => {
-          //saving  each data to the spacefic Announcement email to useremail password to userpassword ect
-         let SchoolName=userName
-          firebase
-            .database()
-            .ref(
-              `School/${SchoolName}/Grade/Users/${
-                firebase.auth().currentUser.uid
-              }/PersonalData`
-            )
-            .update({
-              email: userEmail,
-              name: userName,
-              phoneNumber: phoneNumber,
-              Password: userPassword,
-              currentVersion: "1.00",
-              dateJoined: Date.now(),
-              lastSeen: Date.now(),
-              uid: firebase.auth().currentUser.uid,
-            });
-        })
-        .catch((error) => {
-          if (error) {
-            alert(error);
-          } else {
-            setLoading(true);
-          }
-        });
-
-      setIsSignUpSuccess(true);
+      processRefCode();
     }
+  };
+
+  const processRefCode = () => {
+    let learnerRef = schoolsRefs.find((o) => o.learnerCode === refCode);
+    let teacherRef = schoolsRefs.find((o) => o.teacherCode === refCode);
+    let adminRef = schoolsRefs.find((o) => o.adminCode === refCode);
+
+    if (learnerRef) {
+      signUpUser("Learner", learnerRef.schoolName);
+    } else if (teacherRef) {
+      signUpUser("Teacher", teacherRef.schoolName);
+    } else if (adminRef) {
+      signUpUser("Admin", adminRef.schoolName);
+    } else {
+      alert("Your reference code is invalid");
+    }
+  };
+
+  const signUpUser = (position, schoolName) => {
+    setLoading(true);
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(userEmail.trim(), userPassword.trim())
+      .then(() => {
+        const userId = firebase.auth().currentUser.uid;
+        const timeStamp = Date.now();
+        firebase
+          .database()
+          .ref(`Users/${userId}/PersonalData`)
+          .update({
+            userEmail,
+            userName,
+            phoneNumber,
+            userPassword,
+            dateJoined: timeStamp,
+            lastSeen: timeStamp,
+            userId,
+            position,
+            schoolName,
+          })
+          .then(() => {
+            if (position == "learner") {
+              navigation.navigate("Studentpage");
+            } else if (position == "teacherCode") {
+              navigation.navigate("MainScreen");
+            } else {
+              navigation.navigate("MainScreen");
+            }
+          });
+      })
+      .catch((error) => {
+        alert(error);
+        setLoading(false);
+      });
   };
 
   if (isSignUpSuccess) {
@@ -179,14 +221,14 @@ const SingUp = ({ navigation }) => {
             <ActivityIndicator animating={true} size="large" color="pink" />
           ) : (
             <Image
-                  style={{
-                    width: screenWidth * 0.38,
-                    height: screenWidth * 0.38,  
-                    
-                    borderRadius: 47,
-                  }}
-                  source={require("../Image/icon1.png")}
-                />
+              style={{
+                width: screenWidth * 0.38,
+                height: screenWidth * 0.38,
+
+                borderRadius: 47,
+              }}
+              source={require("../Image/icon1.png")}
+            />
           )}
         </View>
         <KeyboardAvoidingView enabled>
@@ -194,8 +236,8 @@ const SingUp = ({ navigation }) => {
             <TextInput
               style={styles.inputStyle}
               onChangeText={(userName) => setUserName(userName)}
-             underlineColorAndroid="#f000"
-              placeholder="School Name"
+              underlineColorAndroid="#f000"
+              placeholder="Full Names"
               placeholderTextColor="#AEAEAE"
               autoCapitalize="sentences"
               returnKeyType="next"
@@ -228,13 +270,16 @@ const SingUp = ({ navigation }) => {
               keyboardType="numeric"
               returnKeyType="next"
               ref={phoneNumberInputRef}
-              onFocus={() => {
-                setMidleInputPressed(true);
-              }}
-              onBlur={() => {
-                setMidleInputPressed(false);
-              }}
-              blurOnSubmit={false}
+            />
+          </View>
+
+          <View style={styles.SectionStyle}>
+            <TextInput
+              style={styles.inputStyle}
+              onChangeText={(phoneNumber) => setRefCode(phoneNumber)}
+              underlineColorAndroid="#f000"
+              placeholder="Reference Code"
+              placeholderTextColor="#AEAEAE"
             />
           </View>
 
@@ -246,17 +291,7 @@ const SingUp = ({ navigation }) => {
               placeholder="Enter Password"
               placeholderTextColor="#AEAEAE"
               ref={passwordInputRef}
-              onSubmitEditing={Keyboard.dismiss}
-              blurOnSubmit={false}
               returnKeyType="next"
-              onFocus={() => {
-                setMidleInputPressed(true);
-              }}
-              onBlur={() => {
-                setMidleInputPressed(false);
-              }}
-              secureTextEntry={true}
-              //blurOnSubmit={false}
             />
           </View>
 
@@ -271,16 +306,8 @@ const SingUp = ({ navigation }) => {
               placeholderTextColor="#AEAEAE"
               ref={ConfpasswordInputRef}
               returnKeyType="next"
-              onSubmitEditing={Keyboard.dismiss}
-              onFocus={() => {
-                setMidleInputPressed(true);
-              }}
-              onBlur={() => {
-                setMidleInputPressed(false);
-              }}
               //onSubmitEditing={Keyboard.dismiss}
               secureTextEntry={true}
-              blurOnSubmit={false}
             />
           </View>
           {errortext != "" ? (
@@ -305,7 +332,7 @@ const styles = StyleSheet.create({
   SectionStyle: {
     flexDirection: "row",
     height: 42,
-   // backgroundColor: "yellow",
+    // backgroundColor: "yellow",
 
     marginTop: 20,
     marginLeft: 35,
@@ -332,7 +359,7 @@ const styles = StyleSheet.create({
   },
   inputStyle: {
     flex: 1,
-    color: "white",
+    color: "black",
     paddingLeft: 15,
     paddingRight: 15,
     borderWidth: 1,
