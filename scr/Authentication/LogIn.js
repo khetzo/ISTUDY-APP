@@ -48,18 +48,24 @@ const LogIn = ({ navigation }) => {
         .auth()
         .signInWithEmailAndPassword(existEmail, existPassword)
         .then(() => {
-         let SchoolName=userName
-
-          let UserId = firebase.auth().currentUser.uid;
-          firebase.database().ref(`School/${SchoolName}/Grade/Users/${
-            UserId 
-          }/PersonalData`).update({
+          let userId = firebase.auth().currentUser.uid;
+          firebase.database().ref(`Users/${userId}/PersonalData`).update({
             lastSeen: Date.now(),
           });
-//if (existPassword != "  new date.tosting(3) plus id.tosting(5)to admin page")
-
-//if (existPassword== "3letr of school nam plus username+somthinf then go to eacher")
-          navigation.navigate("MainScreen");
+          firebase
+            .database()
+            .ref(`Users/${userId}/PersonalData`)
+            .once("value", (snapshot) => {
+              const { position } = snapshot.val();
+              if (position == "learner") {
+                navigation.navigate("Studentpage");
+              } else if (position == "teacherCode") {
+                navigation.navigate("MainScreen");
+              } else {
+                navigation.navigate("MainScreen");
+              }
+              setLoading(false);
+            });
         })
         .catch((error) => {
           alert(error);
@@ -77,30 +83,26 @@ const LogIn = ({ navigation }) => {
           flex: 1,
           justifyContent: "center",
           //alignContent: "center",
-         // backgroundColor:"green"
+          // backgroundColor:"green"
         }}
       >
         <View
           style={{
             height: inputPressed ? DEVICE_HEIGHT * 0.89 : DEVICE_HEIGHT * 0.99,
-             //backgroundColor:"red",
-          justifyContent: "center",
-
+            //backgroundColor:"red",
+            justifyContent: "center",
           }}
         >
           <KeyboardAvoidingView>
-            <View
-              style={styles.logostyle}
-       
-            >
+            <View style={styles.logostyle}>
               {loading ? (
                 <ActivityIndicator animating={true} size="large" color="pink" />
               ) : (
                 <Image
                   style={{
                     width: screenWidth * 0.38,
-                    height: screenWidth * 0.38,  
-                    
+                    height: screenWidth * 0.38,
+
                     borderRadius: 47,
                   }}
                   source={require("../Image/icon1.png")}
@@ -108,22 +110,16 @@ const LogIn = ({ navigation }) => {
               )}
             </View>
             <View style={styles.logostyle2}>
-
-            <Image
-                  style={{
-                     width: screenWidth * 0.80,
-                    height: screenWidth * 0.15,
-                  }}
-                  source={require("../Image/icon2.png")}
-                />
-
+              <Image
+                style={{
+                  width: screenWidth * 0.8,
+                  height: screenWidth * 0.15,
+                }}
+                source={require("../Image/icon2.png")}
+              />
             </View>
 
-
             <View style={styles.SectionStyle}>
-
-
-             
               <TextInput
                 style={styles.inputStyle}
                 placeholder="Enter your Email"
@@ -157,11 +153,13 @@ const LogIn = ({ navigation }) => {
                 }}
                 returnKeyType="next"
               />
-              
             </View>
             <Text
-              style={[styles.registerTextStyle, { color: "black", alignSelf:"flex-start",marginLeft:40, }]}
-             // onPress={() => navigation.navigate("")}
+              style={[
+                styles.registerTextStyle,
+                { color: "black", alignSelf: "flex-start", marginLeft: 40 },
+              ]}
+              // onPress={() => navigation.navigate("")}
             >
               Forgot Password ?
             </Text>
@@ -169,9 +167,8 @@ const LogIn = ({ navigation }) => {
               {error != "" ? (
                 <Text style={styles.errorTextStyle}>{error}</Text>
               ) : null}
-              
             </View>
-           
+
             <TouchableOpacity
               style={[styles.buttonStyle]}
               activeOpacity={0.5}
@@ -190,7 +187,6 @@ const LogIn = ({ navigation }) => {
             >
               New Here ? Register
             </Text>
-           
           </KeyboardAvoidingView>
         </View>
       </ScrollView>
@@ -215,31 +211,30 @@ const styles = StyleSheet.create({
     marginRight: 35,
     margin: 10,
   },
-  logostyle:{
-
+  logostyle: {
     width: screenWidth * 0.38,
     height: screenWidth * 0.36,
     resizeMode: "contain",
     margin: 20,
     backgroundColor: "gray",
-shadowColor: "#000",
-shadowOffset: {
-width: 0,
-height: 6,
-},
-shadowOpacity: 0.39,
-shadowRadius: 8.30,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    shadowOpacity: 0.39,
+    shadowRadius: 8.3,
 
-elevation: 13,
+    elevation: 13,
     borderRadius: 47,
     alignSelf: "center",
     alignItems: "center",
     justifyContent: "center",
   },
-  logostyle2:{
-    width: screenWidth * 0.80,
-    height: deviceHeight * 0.07,  
-  //  backgroundColor: "yellow",
+  logostyle2: {
+    width: screenWidth * 0.8,
+    height: deviceHeight * 0.07,
+    //  backgroundColor: "yellow",
     alignSelf: "center",
     marginBottom: 20,
     //alignItems: "center",

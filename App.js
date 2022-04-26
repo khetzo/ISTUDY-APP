@@ -4,9 +4,9 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import firebase from "firebase";
 // Import all available files for navigation parpose
-import LandingPage from "./scr/Authontication/LandingPage";
-import LogIn from "./scr/Authontication/LogIn";
-import SignUp from "./scr/Authontication/SingUp";
+import LandingPage from "./scr/Authentication/LandingPage";
+import LogIn from "./scr/Authentication/LogIn";
+import SignUp from "./scr/Authentication/SingUp";
 import Splash from "./scr/Componet/Splash";
 
 import MainScreen from "./scr/MainScreen";
@@ -78,7 +78,6 @@ export default function App() {
           options={{ headerShown: false }}
         />
 
-        
         <Stack.Screen
           name="MainScreen"
           component={MainScreen}
