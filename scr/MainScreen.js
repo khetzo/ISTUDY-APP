@@ -76,6 +76,19 @@ function Profile({ navigation }) {
 }
 //check if user is a student or a techer then locate them to the axect page
 function TeachersAdminHome({ navigation }) {
+  useEffect(() => {
+    let userId = firebase.auth().currentUser.uid;
+    firebase
+      .database()
+      .ref(`Users/${userId}/PersonalData`)
+      .on("value", (snapshot) => {
+        setUserName(`${snapshot.val().userName}`); // ohh damn, here is the problem...............
+        setUserEmail(`${snapshot.val().userEmailAdress}`);
+        setPosition(`${snapshot.val().position}`);
+        setSchoolName(`${snapshot.val().schoolName}`);
+      });
+  }, []);
+
   return (
     <View style={styles.container}>
       <Header navigation={navigation} />
@@ -131,7 +144,7 @@ function TeachersAdminHome({ navigation }) {
           ]}
         >
           <View style={styles.InstutlName}>
-            <Text style={{ fontSize: 10 }}>Name of School</Text>
+            <Text style={{ fontSize: 10 }}>{schoolName}</Text>
           </View>
           <View
             style={[
@@ -139,10 +152,10 @@ function TeachersAdminHome({ navigation }) {
               { borderColor: "black", borderLeftWidth: 1, borderRightWidth: 1 },
             ]}
           >
-            <Text style={{ fontSize: 10 }}>Name of Teacher</Text>
+            <Text style={{ fontSize: 10 }}>{position}</Text>
           </View>
           <View style={styles.InstutlName}>
-            <Text style={{ fontSize: 10 }}>subject</Text>
+            <Text style={{ fontSize: 10 }}>{userName}</Text>
           </View>
         </View>
         {/**reapeating the style of the viewa couse the countating the same thing */}

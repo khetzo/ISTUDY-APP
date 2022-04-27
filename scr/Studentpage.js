@@ -1,5 +1,5 @@
 //Studentpage
-import React, { useState, createRef,useEffect } from "react";
+import React, { useState, createRef, useEffect } from "react";
 
 import {
   FlatList,
@@ -41,21 +41,21 @@ const SubjectData = [
   },
   {
     title: "Teacher",
-    id: "2-123-234-23-45",
+    id: "2-123-2434-23-45",
     picture: "scvdfsd",
     nameofTheTeacher: "Mr maduna",
     subject: "Life Scince",
   },
   {
     title: "Teacher",
-    id: "2-123-234-23-45",
+    id: "2-1243-234-23-45",
     picture: "scvdfsd",
     nameofTheTeacher: "Mr maduna",
     subject: "Life Orientation",
   },
   {
     title: "Teacher",
-    id: "2-123-234-23-45",
+    id: "2-123-234-23-455",
     picture: "scvdfsd",
     nameofTheTeacher: "Mr maduna",
 
@@ -76,6 +76,8 @@ function StudentHome({ navigation }) {
   const [userEmail, setUserEmail] = useState("");
   const [refCode, setRefCode] = useState("");
   const [schoolName, setSchoolName] = useState("");
+  const [ position, setPosition] = useState("");
+
 
   useEffect(() => {
     let userId = firebase.auth().currentUser.uid;
@@ -83,17 +85,14 @@ function StudentHome({ navigation }) {
       .database()
       .ref(`Users/${userId}/PersonalData`)
       .on("value", (snapshot) => {
-        setUserName(`${snapshot.val().surnameAndNames}`); // ohh damn, here is the problem...............
+        setUserName(`${snapshot.val().userName}`); // ohh damn, here is the problem...............
         setUserEmail(`${snapshot.val().userEmailAdress}`);
-        //position(`${snapshot.val().userEmailAdress}`);
-        setSchoolName(`${snapshot.val().userEmailAdress}`);
+        setPosition(`${snapshot.val().position}`);
+        setSchoolName(`${snapshot.val().schoolName}`);
       });
   }, []);
-  const HoldingSubjectInfo = ({item,navigation}) => (
-    <TouchableOpacity
-      style={styles.itemContainer}
-      onPress={() => navigation.navigate("VideosScreen")}
-    >
+  const HoldingSubjectInfo = ({ item }) => (
+    <TouchableOpacity style={styles.itemContainer}>
       <View
         style={{
           height: deviceHeight * 0.12,
@@ -168,7 +167,7 @@ function StudentHome({ navigation }) {
 
         <TouchableOpacity
           style={styles.buttenBoxs}
-          onPress={ navigation.navigate("Marks")}
+          onPress={() => navigation.navigate("Marks")}
         >
           <Image
             style={{
@@ -220,10 +219,10 @@ function StudentHome({ navigation }) {
             { borderColor: "black", borderLeftWidth: 1, borderRightWidth: 1 },
           ]}
         >
-          <Text style={{ fontSize: 10 }}>Document page</Text>
+          <Text style={{ fontSize: 15 }}>{schoolName}</Text>
         </View>
         <View style={styles.InstutlName}>
-          <Text style={{ fontSize: 10 }}>subject</Text>
+          <Text style={{ fontSize: 15 }}>{position}</Text>
         </View>
       </View>
       <ScrollView>
@@ -282,7 +281,6 @@ function Profile({ navigation }) {
 const Tab = createBottomTabNavigator();
 
 const Studentpage = ({ navigation }) => {
-
   return (
     <Tab.Navigator
       initialRouteName="StudentHome"
