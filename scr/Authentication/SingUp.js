@@ -47,17 +47,20 @@ const SingUp = ({ navigation }) => {
   const ConfpasswordInputRef = createRef();
 
   const schoolsRefs = [
+    //SCHOOLS DATA 1
     {
       schoolName: "Mbilwi High School",
       learnerCode: "Mbilwi22",
-      AdminCode: "Admin@Mbilwi22",
+      adminCode: "Admin@Mbilwi22",
       TeacherCode: "Teacher@Mbilwi22",
     },
+    //SCHOOLS DATA 2
+
     {
       schoolName: "Tshivhase Secondary School",
       learnerCode: "Tshivhase-SS",
-      AdminCode: "Admin@Tshivhase-SS",
-      TeacherCode: "Teacher@Tshivhase-SS",
+      adminCode: "Admin@Tshivhase-SS",
+      teacherCode: "Teacher@Tshivhase-SS",
     },
     {
       schoolName: "Mukula Integrated School",
@@ -89,16 +92,28 @@ const SingUp = ({ navigation }) => {
   };
 
   const processRefCode = () => {
+    // console.log(refCode)
     let learnerRef = schoolsRefs.find((o) => o.learnerCode === refCode);
+    // console.log(learnerRef.schoolName)
+
+    //undefined or {}learner
+    
+    // console.log("learnerRef")
+
+
     let teacherRef = schoolsRefs.find((o) => o.teacherCode === refCode);
+    //undefined or {}teacher
+
+
     let adminRef = schoolsRefs.find((o) => o.adminCode === refCode);
+    //undefined or {}admin
 
     if (learnerRef) {
       signUpUser("Learner", learnerRef.schoolName);
     } else if (teacherRef) {
       signUpUser("Teacher", teacherRef.schoolName);
     } else if (adminRef) {
-      signUpUser("Admin", adminRef.schoolName);
+     signUpUser("Admin", adminRef.schoolName);
     } else {
       alert("Your reference code is invalid");
     }
@@ -127,12 +142,12 @@ const SingUp = ({ navigation }) => {
             schoolName,
           })
           .then(() => {
-            if (position == "learner") {
+            if (position == "Learner") {
               navigation.navigate("Studentpage");
-            } else if (position == "teacherCode") {
-              navigation.navigate("MainScreen");
+            } else if (position == "TeacherCode") {
+              navigation.navigate("MainTeacher");
             } else {
-              navigation.navigate("MainScreen");
+              navigation.navigate("MainTeacher");
             }
           });
       })
@@ -182,7 +197,7 @@ const SingUp = ({ navigation }) => {
         <TouchableOpacity
           style={styles.buttonStyle}
           activeOpacity={0.5}
-          onPress={() => navigation.navigate("MainScreen")}
+          onPress={() => signUpUser}
         >
           <Text style={styles.buttonTextStyle}>Login Now</Text>
         </TouchableOpacity>
@@ -236,12 +251,12 @@ const SingUp = ({ navigation }) => {
             <TextInput
               style={styles.inputStyle}
               onChangeText={(userName) => setUserName(userName)}
-              underlineColorAndroid="#f000"
-              placeholder="Full Names"
+              // underlineColorAndroid="#f000"
+              placeholder="Name SURNAME"
               placeholderTextColor="#AEAEAE"
-              autoCapitalize="sentences"
-              returnKeyType="next"
-              blurOnSubmit={false}
+              // autoCapitalize="sentences"
+              // returnKeyType="next"
+              // blurOnSubmit={false}
             />
           </View>
           <View style={styles.SectionStyle}>
@@ -276,7 +291,7 @@ const SingUp = ({ navigation }) => {
           <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
-              onChangeText={(phoneNumber) => setRefCode(phoneNumber)}
+              onChangeText={(text) => setRefCode(text)}
               underlineColorAndroid="#f000"
               placeholder="Reference Code"
               placeholderTextColor="#AEAEAE"
@@ -344,13 +359,14 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     color: "#FFFFFF",
     borderColor: "black",
-    height: 40,
+    height: 50,
     alignItems: "center",
     borderRadius: 30,
     marginLeft: 35,
     marginRight: 35,
     marginTop: 20,
     marginBottom: 20,
+    // padding:5
   },
   buttonTextStyle: {
     color: "#FFFFFF",

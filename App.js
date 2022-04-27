@@ -8,12 +8,11 @@ import LandingPage from "./scr/Authentication/LandingPage";
 import LogIn from "./scr/Authentication/LogIn";
 import SignUp from "./scr/Authentication/SingUp";
 import Splash from "./scr/Componet/Splash";
-
+import ForgotPassword from "./scr/Authentication/ForgortPassword";
 import MainScreen from "./scr/MainScreen";
 import VideosScreen from "./scr/VideosScreen";
 import Documment from "./scr/Documment";
 import Marks from "./scr/Marks";
-
 import Studentpage from "./scr/Studentpage";
 //For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
@@ -77,7 +76,11 @@ export default function App() {
           component={Auth}
           options={{ headerShown: false }}
         />
-
+ <Stack.Screen
+        name="ForgortPassword"
+        component={ForgotPassword}
+        options={{ headerShown: false }}
+      />
         <Stack.Screen
           name="MainScreen"
           component={MainScreen}

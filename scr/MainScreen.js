@@ -32,181 +32,7 @@ const DEVICE_HEIGHT = Platform.select({
 const STATUSBAR_HEIGHT = Platform.OS === "ios" ? 20 : StatusBar.currentHeight;
 
 const TabTop = createMaterialTopTabNavigator();
-const SubjectData = [
-  {
-    title: "Book-ANSWER SERIES",
-    id: "4-54-56-5-65-6",
-    picture:"scvdfsd",
-    nameofTheTeacher:"Mr maduna",
-    subject:"math",
 
-  },
-  {
-    title: "GRUP LIST",
-    id: "2-123-234-23-45",
-    picture:"scvdfsd",
-    nameofTheTeacher:"Mr maduna",
-    subject:"L.O",
-
-
-  },
-];
-//--------tha main page of home page----------------------
-
-function StudentHome({ navigation }) {
-  const HoldingSubjectInfo = ({ item, navigation }) => (
-    <TouchableOpacity
-      style={styles.itemContainer}
-      onPress={() => {
-        alert("commiiiii");
-      }}
-    >
-
-    
-<View style={{ 
-      height: deviceHeight * 0.12, 
-      width: deviceWidth * 0.98,
-  
-    //backgroundColor: "green",
-    flexDirection: "row",
-    
-     justifyContent:"center",}}>
-      <View style={styles.iconBox}>
-        <Image
-          style={{
-            width: screenWidth * 0.1,
-            height: screenWidth * 0.1,
-          }}
-          source={require("./Image/document.jpg")}
-        />
-      </View>
-      <View style={styles.discriptionBox}>
-        <View style={styles.holdingTitleBox}>
-          <Text style={[styles.text, { fontSize: 17, fontWeight: "600" }]}>
-            {item.title}
-          </Text>
-        </View>
-        <TouchableOpacity style={styles.teacherNameAndSbuject}>
-          <Text style={{ fontSize: 11 }}>{item.subject}_||_{item.nameofTheTeacher}</Text>
-        </TouchableOpacity>
-      </View>
-     
-      <TouchableOpacity
-        style={[
-          styles.iconBox,
-          {
-            backgroundColor: "white",
-            width: "10%",
-            height: "20%",
-            borderRadius: 9,
-            justifyContent: "flex-start",
-          },
-        ]}
-      >
-        <Entypo name="dots-three-horizontal" size={20} color="black" />
-      </TouchableOpacity>
-
-</View>
-
-      <View style={styles.buttensContainer}>
-        <TouchableOpacity style={styles.buttenBoxs}>
-
-        <Image
-                style={{
-                  height: deviceWidth * 0.08,
-                  width: deviceWidth * 0.08,
-                  borderRadius: 20,
-              
-                }}
-                source={require("./Image/vedioicon.png")}
-              />
-<Text style={{fontSize:10, }}>Videos</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.buttenBoxs}>
-        <Image
-                style={{
-                  height: deviceWidth * 0.08,
-                  width: deviceWidth * 0.08,
-                  borderRadius: 20,
-              
-                }}
-                source={require("./Image/document.jpg")}
-              />
-<Text style={{fontSize:10,}}>Document</Text>
-
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.buttenBoxs}>
-        <Image
-                style={{
-                  height: deviceWidth * 0.08,
-                  width: deviceWidth * 0.08,
-                  borderRadius: 20,
-              
-                }}
-                source={require("./Image/marks.jpg")}
-              />
-<Text style={{fontSize:10, }}>Marks</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.buttenBoxs}>
-
-        <Image
-                style={{
-                  height: deviceWidth * 0.08,
-                  width: deviceWidth * 0.08,
-                  borderRadius: 20,
-              
-                }}
-                source={require("./Image/submit.png")}
-              />
-<Text style={{fontSize:10, }}>Submit</Text>
-        </TouchableOpacity>
-
-        
-      </View>
-    </TouchableOpacity>
-  );
-  return (
-    <View style={styles.container}>
-      <Header navigation={navigation} />
-      <View
-        style={[
-          styles.headingbox,
-          {
-            margin: 1,
-            height: deviceHeight * 0.04,
-            borderBottomWidth: 0,
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-          },
-        ]}
-      >
-        <View style={styles.InstutlName}>
-          <Text style={{ fontSize: 10 }}>Name of School</Text>
-        </View>
-        <View
-          style={[
-            styles.InstutlName,
-            { borderColor: "black", borderLeftWidth: 1, borderRightWidth: 1 },
-          ]}
-        >
-          <Text style={{ fontSize: 10 }}>Document page</Text>
-        </View>
-        <View style={styles.InstutlName}>
-          <Text style={{ fontSize: 10 }}>subject</Text>
-        </View>
-      </View>
-      <FlatList
-        data={SubjectData}
-        renderItem={HoldingSubjectInfo}
-        keyExtractor={(item) => item.id}
-        //  extraData={selectedId}
-      />
-    </View>
-  );
-}
 function Email({ navigation }) {
   return (
     <View style={styles.container}>
@@ -249,7 +75,7 @@ function Profile({ navigation }) {
   );
 }
 //check if user is a student or a techer then locate them to the axect page
-function TeachersAdminHome({navigation}) {
+function TeachersAdminHome({ navigation }) {
   return (
     <View style={styles.container}>
       <Header navigation={navigation} />
@@ -352,7 +178,7 @@ function TeachersAdminHome({navigation}) {
               source={require("./Image/vedioicon.png")}
             />
             <TouchableOpacity
-              onPress={() => navigation.navigate("Studentpage")}
+             // onPress={() => }
               style={styles.buttonSubmitstyle}
             >
               <Text style={{ color: "white" }}>SUBMIT</Text>
@@ -487,8 +313,7 @@ const MainScreen = ({ navigation }) => {
         options={{ headerShown: false }}
         component={TeachersAdminHome}
       />
-     
-     
+
       <Tab.Screen
         name="Send Email"
         options={{ headerShown: false }}
@@ -663,12 +488,11 @@ const styles = StyleSheet.create({
   },
   //----------style for stodent page---------------------------
   itemContainer: {
-    height: deviceHeight * 0.20,
+    height: deviceHeight * 0.2,
     width: "97%",
     backgroundColor: "white",
     alignSelf: "center",
     marginTop: 10,
-  
 
     borderRadius: 16,
     shadowColor: "#312E2E",
@@ -682,7 +506,7 @@ const styles = StyleSheet.create({
     elevation: 5,
 
     //alignItems: "center",
-   // justifyContent: "center",
+    // justifyContent: "center",
   },
   iconBox: {
     height: screenWidth * 0.15,
@@ -699,33 +523,32 @@ const styles = StyleSheet.create({
   discriptionBox: {
     height: "65%",
     width: "70%",
-  //  backgroundColor: "green",
+    //  backgroundColor: "green",
     margin: 4,
-   
   },
-  buttensContainer:{
+  buttensContainer: {
     height: "40%",
-    width:screenWidth*0.97,
+    width: screenWidth * 0.97,
     borderTopWidth: 3,
     borderColor: "#F1F1F1",
- //backgroundColor: "blue",
-  flexDirection:"row",
-  justifyContent:"center",
-  alignItems:"flex-end",
+    //backgroundColor: "blue",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "flex-end",
   },
-  buttenBoxs:{
-    margin:3,
-    height: deviceHeight*0.06,
-    width:screenWidth*0.22,
-    justifyContent:"center",
-   alignItems:"center",
- // backgroundColor: "red",
+  buttenBoxs: {
+    margin: 3,
+    height: deviceHeight * 0.06,
+    width: screenWidth * 0.22,
+    justifyContent: "center",
+    alignItems: "center",
+    // backgroundColor: "red",
   },
   holdingTitleBox: {
     height: "30%",
     width: "98%",
 
-   // backgroundColor: "yellow",
+    // backgroundColor: "yellow",
   },
   teacherNameAndSbuject: {
     height: "20%",

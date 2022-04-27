@@ -52,17 +52,22 @@ const LogIn = ({ navigation }) => {
           firebase.database().ref(`Users/${userId}/PersonalData`).update({
             lastSeen: Date.now(),
           });
+          
+              //taking a snapshot from the firebase
           firebase
             .database()
             .ref(`Users/${userId}/PersonalData`)
             .once("value", (snapshot) => {
               const { position } = snapshot.val();
-              if (position == "learner") {
+
+
+              if (position == "Learner") {
                 navigation.navigate("Studentpage");
               } else if (position == "teacherCode") {
                 navigation.navigate("MainScreen");
               } else {
-                navigation.navigate("MainScreen");
+                alert("unrecognised from database")
+                //navigation.navigate("Studentpage");
               }
               setLoading(false);
             });
@@ -159,7 +164,7 @@ const LogIn = ({ navigation }) => {
                 styles.registerTextStyle,
                 { color: "black", alignSelf: "flex-start", marginLeft: 40 },
               ]}
-              // onPress={() => navigation.navigate("")}
+             onPress={() => navigation.navigate("ForgortPassword") }
             >
               Forgot Password ?
             </Text>
