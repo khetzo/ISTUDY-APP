@@ -23,13 +23,14 @@
     "android": {
       "package": "com.istudycompany.ISTUDY",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#FFFFFF"
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/icon.png"
     },
-    "description": "check if its responsive to all screens ios and android"
+    "description": "funtions {log in page ,forget password,registrationg, difarentiate between admin and student  and direct them to thier spescefic page}",
+    "githubUrl": "https://github.com/khetzo/ISTUDY-APP.git"
   }
 }

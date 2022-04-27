@@ -89,12 +89,10 @@ function StudentHome({ navigation }) {
         setSchoolName(`${snapshot.val().userEmailAdress}`);
       });
   }, []);
-  const HoldingSubjectInfo = ({ item, navigation }) => (
+  const HoldingSubjectInfo = ({item,navigation}) => (
     <TouchableOpacity
       style={styles.itemContainer}
-      onPress={() => {
-        alert("commiiiii");
-      }}
+      onPress={() => navigation.navigate("VideosScreen")}
     >
       <View
         style={{
@@ -170,7 +168,7 @@ function StudentHome({ navigation }) {
 
         <TouchableOpacity
           style={styles.buttenBoxs}
-          onPress={() => navigation.navigate("Marks")}
+          onPress={ navigation.navigate("Marks")}
         >
           <Image
             style={{
@@ -284,45 +282,7 @@ function Profile({ navigation }) {
 const Tab = createBottomTabNavigator();
 
 const Studentpage = ({ navigation }) => {
-  const HoldingDocumentInfo = ({ item, navigation }) => (
-    <TouchableOpacity
-      style={styles.itemContainer}
-      onPress={() => {
-      //  alert("commiiiii");
-      }}
-    >
-      <View style={styles.iconBox}>
-        <Image
-          style={{
-            width: screenWidth * 0.15,
-            height: screenWidth * 0.15,
-          }}
-          source={require("./Image/document.jpg")}
-        />
-      </View>
-      <View style={styles.discriptionBox}>
-        <View style={styles.holdingTitleBox}>
-          <Text style={[styles.text, { fontSize: 18, fontWeight: "600" }]}>
-            {item.title}
-          </Text>
-        </View>
-        <TouchableOpacity style={styles.buttonToDownload}>
-          <Text style={{ fontSize: 11 }}>DOWNLOAD PDF</Text>
-        </TouchableOpacity>
-      </View>
-      <View
-        style={[
-          styles.iconBox,
-          {
-            backgroundColor: "#DFDFDF",
-            width: "10%",
-            height: "50%",
-            borderRadius: 9,
-          },
-        ]}
-      ></View>
-    </TouchableOpacity>
-  );
+
   return (
     <Tab.Navigator
       initialRouteName="StudentHome"
