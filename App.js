@@ -14,6 +14,8 @@ import VideosScreen from "./scr/VideosScreen";
 import Documment from "./scr/Documment";
 import Marks from "./scr/Marks";
 import Studentpage from "./scr/Studentpage";
+import upDateUserInfo from "./scr/Authentication/UpDateUserInfo";
+import Chats from "./scr/Chats";
 //For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyBPsCql9__xc1ctRAbvMmc1b40_disItRQ",
@@ -65,7 +67,7 @@ const Auth = () => {
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="splash">
+      <Stack.Navigator initialRouteName="upDateUserInfo">
         <Stack.Screen
           name="Splash"
           component={Splash}
@@ -96,9 +98,19 @@ export default function App() {
           component={Documment}
           options={{ headerShown: false }}
         />
+         <Stack.Screen
+          name="Chats"
+          component={Chats}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen
           name="Marks"
           component={Marks}
+          options={{ headerShown: false }}
+        />
+         <Stack.Screen
+          name="upDateUserInfo"
+          component={upDateUserInfo}
           options={{ headerShown: false }}
         />
         <Stack.Screen
@@ -106,6 +118,7 @@ export default function App() {
           component={Studentpage}
           options={{ headerShown: false }}
         />
+      
       </Stack.Navigator>
     </NavigationContainer>
   );

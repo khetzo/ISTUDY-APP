@@ -13,7 +13,7 @@
     "@react-navigation/material-top-tabs": "^6.0.6",
     "@react-navigation/native": "^6.0.6",
     "@react-navigation/native-stack": "^6.2.5",
-    "expo": "~44.0.0",
+    "expo": "^44.0.6",
     "expo-status-bar": "~1.2.0",
     "firebase": "^8.2.3",
     "react": "17.0.1",
@@ -26,8 +26,8 @@
     "react-native-vector-icons": "^9.0.0",
     "react-native-web": "0.17.1"
   },
-  "devDependencies": {
-    "@babel/core": "^7.12.9"
-  },
+ 
+  
   "private": true
+  
 }

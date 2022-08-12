@@ -59,7 +59,7 @@ function Announcement({ navigation }) {
     <View style={styles.container}>
       <Header navigation={navigation} />
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text>anotification</Text>
+        <Text>notification </Text>
       </View>
     </View>
   );
@@ -69,7 +69,10 @@ function Profile({ navigation }) {
     <View style={styles.container}>
       <Header navigation={navigation} />
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text>profile</Text>
+  <View style={styles.profileContainer}>
+
+
+  </View>
       </View>
     </View>
   );
@@ -598,4 +601,10 @@ const styles = StyleSheet.create({
     elevation: 9,
     borderRadius: 30,
   },
+  profileContainer:{
+    height: deviceHeight * 0.037,
+    width: screenWidth * 0.33,
+    backgroundColor: "green",
+
+  }
 });

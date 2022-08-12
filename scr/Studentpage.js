@@ -72,12 +72,12 @@ const SubjectData = [
 ];
 
 function StudentHome({ navigation }) {
+
   const [userName, setUserName] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [refCode, setRefCode] = useState("");
   const [schoolName, setSchoolName] = useState("");
-  const [ position, setPosition] = useState("");
-
+  const [position, setPosition] = useState("");
 
   useEffect(() => {
     let userId = firebase.auth().currentUser.uid;
@@ -92,7 +92,9 @@ function StudentHome({ navigation }) {
       });
   }, []);
   const HoldingSubjectInfo = ({ item }) => (
-    <TouchableOpacity style={styles.itemContainer}>
+    <TouchableOpacity style={styles.itemContainer}
+    onPress={() => navigation.navigate("Chats",{item:item})}
+    >
       <View
         style={{
           height: deviceHeight * 0.12,
@@ -111,7 +113,9 @@ function StudentHome({ navigation }) {
               {item.subject}
             </Text>
           </View>
-          <TouchableOpacity style={styles.teacherNameAndSbuject}>
+          <TouchableOpacity style={styles.teacherNameAndSbuject}
+
+          >
             <Text style={{ fontSize: 11 }}>
               {" "}
               {item.title}_||_{item.nameofTheTeacher}
@@ -271,9 +275,30 @@ function Profile({ navigation }) {
   return (
     <View style={styles.container}>
       <Header navigation={navigation} />
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text>profile</Text>
+
+      <Image
+        style={styles.profileContainer}
+        source={require("../scr/Image/defultProfile.jpg")}
+      />
+
+      <View style={styles.infoHolderbox}>
+        <View style={styles.infoHolder}>
+          <Text>Name</Text>
+        </View>
+        <View style={styles.infoHolder}>
+          <Text>grade</Text>
+        </View>
+        <View style={styles.infoHolder}>
+          <Text>schoolName</Text>
+        </View>
       </View>
+
+      <ScrollView style={styles.profileInfoContainer}>
+        <TouchableOpacity style={styles.profileInfoBox}>
+          <Text></Text>
+          <View></View>
+        </TouchableOpacity>
+      </ScrollView>
     </View>
   );
 }
@@ -281,6 +306,7 @@ function Profile({ navigation }) {
 const Tab = createBottomTabNavigator();
 
 const Studentpage = ({ navigation }) => {
+ 
   return (
     <Tab.Navigator
       initialRouteName="StudentHome"
@@ -367,6 +393,7 @@ const styles = StyleSheet.create({
     marginTop: StatusBar.currentHeight || 0,
     height: DEVICE_HEIGHT * 0.03,
     backgroundColor: "#E7E7E7",
+    alignItems: "center",
   },
   item: {
     padding: 20,
@@ -604,5 +631,43 @@ const styles = StyleSheet.create({
     shadowRadius: 9,
     elevation: 9,
     borderRadius: 30,
+  },
+  profileContainer: {
+    marginTop: 10,
+    height: screenWidth * 0.4,
+    width: screenWidth * 0.4,
+    borderRadius: 300,
+    // backgroundColor: "green",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  infoHolderbox: {
+    height: deviceHeight * 0.1,
+    width: screenWidth * 0.98,
+    // backgroundColor: "green",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+  },
+  infoHolder: {
+    margin: 5,
+    height: deviceHeight * 0.06,
+    width: screenWidth * 0.28,
+    backgroundColor: "white",
+    justifyContent: "center",
+    borderRadius: 10,
+    alignItems: "center",
+    flexDirection: "row",
+  },
+  profileInfoContainer: {
+    height: deviceHeight * 0.3,
+    width: screenWidth * 0.98,
+    backgroundColor: "white",
+    borderRadius: 30,
+  },
+  profileInfoBox: {
+    height: deviceHeight * 0.3,
+    width: screenWidth * 0.98,
+    backgroundColor: "white",
   },
 });

@@ -1,5 +1,5 @@
 //Import React and Component                   firebase accounnt           istudy356@gail.com password ISTUDY356
-import React, { useState, createRef } from "react";
+import React, { useState, createRef, useEffect } from "react";
 import {
   StyleSheet,
   TextInput,
@@ -8,16 +8,20 @@ import {
   Image,
   KeyboardAvoidingView,
   Keyboard,
+  SafeAreaView,
   StatusBar,
   Dimensions,
   TouchableOpacity,
   ScrollView,
   ActivityIndicator,
+  FlatList,
+  Modal,
 } from "react-native";
 import { AntDesign, EvilIcons } from "@expo/vector-icons";
 import firebase from "firebase";
 
 import Loader from "../Componet/Louder";
+import { backgroundColor } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
 
 const screenWidth = Dimensions.get("window").width;
 const deviceHeight = Dimensions.get("window").height;
@@ -36,12 +40,20 @@ const SingUp = ({ navigation }) => {
   const [userPassword, setUserPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [refCode, setRefCode] = useState("");
+  const [schoolName, setSchoolName] = useState("");
+  const [position, setPosition] = useState("");
 
   const [loading, setLoading] = useState(false);
   const [errortext, setErrortext] = useState("");
-  const [isSignUpSuccess, setIsSignUpSuccess] = useState(false);
+  const [getGrade, setGetGrade] = useState(false);
+  //modal of chooseing a stream
+ 
 
+  //selected grade and mejor subject must be stored to the useState
+const [chooseGrade, setChooseGrade] = useState(" ");
+ const[mejorsubject,setMejorsubject]=useState(" ");
   const emailInputRef = createRef();
+
   const phoneNumberInputRef = createRef();
   const passwordInputRef = createRef();
   const ConfpasswordInputRef = createRef();
@@ -52,10 +64,10 @@ const SingUp = ({ navigation }) => {
       schoolName: "Mbilwi High School",
       learnerCode: "Mbilwi22",
       adminCode: "Admin@Mbilwi22",
-      TeacherCode: "Teacher@Mbilwi22",
+      teacherCode: "Teacher@Mbilwi22",
     },
     //SCHOOLS DATA 2
-
+    //Mbilwi22,Tshivhase-SS,MIS2022
     {
       schoolName: "Tshivhase Secondary School",
       learnerCode: "Tshivhase-SS",
@@ -72,6 +84,7 @@ const SingUp = ({ navigation }) => {
 
   const handleSubmitButton = () => {
     // setErrortext('');
+    console.log("kjhgfdghj")
     if (userName === "") {
       alert("Please enter your surname and full names before proceeding");
     } else if (userEmail === "") {
@@ -88,34 +101,23 @@ const SingUp = ({ navigation }) => {
       alert("Passwords do not match");
     } else {
       processRefCode();
+     
     }
   };
 
   const processRefCode = () => {
-    // console.log(refCode)
+  
     let learnerRef = schoolsRefs.find((o) => o.learnerCode === refCode);
-    // console.log(learnerRef.schoolName)
-
-    //undefined or {}learner
-    
-    // console.log("learnerRef")
-
-
     let teacherRef = schoolsRefs.find((o) => o.teacherCode === refCode);
-    //undefined or {}teacher
-
-
     let adminRef = schoolsRefs.find((o) => o.adminCode === refCode);
-    //undefined or {}admin
-
     if (learnerRef) {
       signUpUser("Learner", learnerRef.schoolName);
     } else if (teacherRef) {
       signUpUser("Teacher", teacherRef.schoolName);
     } else if (adminRef) {
-     signUpUser("Admin", adminRef.schoolName);
+      signUpUser("Admin", adminRef.schoolName);
     } else {
-      alert("Your reference code is invalid");
+      alert("Your reference code is invalid,to get your refCode please contact IT team 0767786789 ");
     }
   };
 
@@ -140,14 +142,16 @@ const SingUp = ({ navigation }) => {
             userId,
             position,
             schoolName,
+            chooseGrade,
+            mejorsubject,
           })
           .then(() => {
-            if (position == "Learner") {
-              navigation.navigate("Studentpage");
-            } else if (position == "TeacherCode") {
-              navigation.navigate("MainTeacher");
+            if (position == "learner") {
+            navigation.navigate("UpDateUserInfo");
+            } else if (position == "teacherCode") {
+              navigation.navigate("MainScreen");
             } else {
-              navigation.navigate("MainTeacher");
+              navigation.navigate("MainScreen");
             }
           });
       })
@@ -156,54 +160,11 @@ const SingUp = ({ navigation }) => {
         setLoading(false);
       });
   };
+  // the funtion to select the grade the go the the spesefict= subject to select 9 subject
+  
 
-  if (isSignUpSuccess) {
-    return (
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: "#307ecc",
-          justifyContent: "center",
-        }}
-      >
-        <View
-          // source={require("../Image/aboutreact.png")}
-          style={{
-            width: screenWidth * 0.38,
-            height: screenWidth * 0.36,
-            resizeMode: "contain",
-            margin: 20,
-            backgroundColor: "gray",
 
-            borderRadius: 30,
-            alignSelf: "center",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Text
-            style={{
-              fontSize: 100,
-
-              color: "pink",
-              fontWeight: "bold",
-            }}
-          >
-            <EvilIcons name="check" size={104} color="black" />
-          </Text>
-        </View>
-
-        <Text style={styles.successTextStyle}>Registration Successful</Text>
-        <TouchableOpacity
-          style={styles.buttonStyle}
-          activeOpacity={0.5}
-          onPress={() => signUpUser}
-        >
-          <Text style={styles.buttonTextStyle}>Login Now</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  }
+ 
 
   return (
     <View style={{ flex: 1, backgroundColor: "#E7E7E7" }}>
@@ -252,7 +213,7 @@ const SingUp = ({ navigation }) => {
               style={styles.inputStyle}
               onChangeText={(userName) => setUserName(userName)}
               // underlineColorAndroid="#f000"
-              placeholder="Name SURNAME"
+              placeholder="Enter your name"
               placeholderTextColor="#AEAEAE"
               // autoCapitalize="sentences"
               // returnKeyType="next"
@@ -302,7 +263,7 @@ const SingUp = ({ navigation }) => {
             <TextInput
               style={styles.inputStyle}
               onChangeText={(userPassword) => setUserPassword(userPassword)}
-              // underlineColorAndroid="#f000"
+              //underlineColorAndroid="#f000"
               placeholder="Enter Password"
               placeholderTextColor="#AEAEAE"
               ref={passwordInputRef}
@@ -331,7 +292,11 @@ const SingUp = ({ navigation }) => {
           <TouchableOpacity
             style={styles.buttonStyle}
             activeOpacity={0.5}
-            onPress={handleSubmitButton}
+            onPress={
+          
+               
+              handleSubmitButton
+            }
           >
             <Text style={styles.buttonTextStyle}>NEXT</Text>
           </TouchableOpacity>
@@ -369,9 +334,11 @@ const styles = StyleSheet.create({
     // padding:5
   },
   buttonTextStyle: {
-    color: "#FFFFFF",
+    color: "black",
+
     paddingVertical: 10,
-    fontSize: 16,
+    fontSize: 18,
+    fontWeight: "bold",
   },
   inputStyle: {
     flex: 1,
@@ -388,9 +355,130 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   successTextStyle: {
-    color: "white",
+    color: "black",
     textAlign: "center",
     fontSize: 18,
     padding: 30,
+  },
+  flatlistgound: {
+    marginTop: 30,
+    height: "35%",
+    width: "99%",
+    //backgroundColor: "yellow",
+
+    alignItems: "center",
+  },
+  gradeBox: {
+    margin: 7,
+    height: "90%",
+    width: screenWidth * 0.4,
+    backgroundColor: "white",
+    justifyContent: "space-evenly",
+    alignItems: "center",
+
+    shadowColor: "#666666",
+    shadowOffset: {
+      width: 3,
+      height: 6,
+    },
+    shadowOpacity: 2,
+    shadowRadius: 9,
+    elevation: 9,
+    borderRadius: 8,
+  },
+  gradeicon: {
+    height: screenWidth * 0.3,
+    width: screenWidth * 0.3,
+
+    backgroundColor: "gray",
+    borderRadius: 800,
+  },
+  gradeNumber: {
+    height: screenWidth * 0.08,
+    width: screenWidth * 0.3,
+    backgroundColor: "gray",
+    borderRadius: 10,
+    alignItems: "center",
+    justifyContent: "space-evenly",
+  },
+  iconToshowProgress: {
+    width: screenWidth * 0.38,
+    height: screenWidth * 0.36,
+    resizeMode: "contain",
+    margin: 20,
+    backgroundColor: "white",
+
+    borderRadius: 30,
+    alignSelf: "center",
+    alignItems: "center",
+    justifyContent: "center",
+
+    shadowColor: "#666666",
+    shadowOffset: {
+      width: 3,
+      height: 6,
+    },
+    shadowOpacity: 2,
+    shadowRadius: 9,
+    elevation: 9,
+  },
+  subjectBox: {
+    margin: 0.2,
+    width: screenWidth * 0.99,
+    height: screenWidth * 0.2,
+    backgroundColor: "white",
+    alignItems: "center",
+
+    alignSelf: "center",
+    borderRadius: 4,
+    flexDirection: "row",
+    shadowColor: "#666666",
+    shadowOffset: {
+      width: 3,
+      height: 6,
+    },
+    shadowOpacity: 2,
+    shadowRadius: 9,
+    elevation: 9,
+  },
+  subjectCountainer: {
+    margin: 15,
+    height: deviceHeight * 0.07,
+    width: screenWidth * 0.8,
+    //backgroundColor: "red",
+    borderRadius: 10,
+  },
+
+  greatings: {
+    height: deviceHeight * 0.3,
+    width: screenWidth * 0.99,
+    //backgroundColor: "red",
+    alignItems: "center",
+  },
+  //
+  modalcallsCuncell: {
+    height: deviceHeight * 0.6,
+    width: screenWidth * 0.98,
+    //backgroundColor: "red",
+  },
+  modalStream: {
+    height: deviceHeight * 0.4,
+    width: screenWidth,
+
+    backgroundColor: "rgb(201, 201, 201)",
+    // alignItems: "center",
+    // justifyContent: "center",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+  },
+  heading: {
+    height: "19%",
+    width: "100%",
+    backgroundColor: "gray",
+
+    alignItems: "center",
+    justifyContent: "center",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
   },
 });

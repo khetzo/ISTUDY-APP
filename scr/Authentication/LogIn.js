@@ -32,6 +32,9 @@ const DEVICE_HEIGHT = Platform.select({
 const LogIn = ({ navigation }) => {
   const [existEmail, setExistEmail] = useState("");
   const [existPassword, setExistPassword] = useState("");
+ 
+
+
 
   const [error, setError] = useState("");
 
@@ -164,7 +167,7 @@ const LogIn = ({ navigation }) => {
                 styles.registerTextStyle,
                 { color: "black", alignSelf: "flex-start", marginLeft: 40 },
               ]}
-             onPress={() => navigation.navigate("ForgortPassword") }
+             onPress={() => navigation.navigate("GradeInfor") }
             >
               Forgot Password ?
             </Text>

@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white",
     paddingTop: STATUSBAR_HEIGHT,
-   // justifyContent: "center",
+   justifyContent: "center",
     alignItems: "center",
   },
   emailCont: {
