@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import {
   FlatList,
   SafeAreaView,
@@ -10,9 +11,12 @@ import {
   View,
   TextInput,
   Image,
+  Linking,
 } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import storage from "@react-native-firebase/storage";
+import firebase from "firebase";
 import Header from "./Componet/Header";
 
 const deviceHeight = Dimensions.get("window").height;
@@ -27,21 +31,71 @@ const DEVICE_HEIGHT = Platform.select({
 });
 const STATUSBAR_HEIGHT = Platform.OS === "ios" ? 20 : StatusBar.currentHeight;
 
-const DocumentData = [
-  {
-   
-    title: "Book-ANSWER SERIES",
-id:"4-54-56-5-65-6"
-  },
-  {
-   
-    title: "GRUP LIST",
-    id:"2-123-234-23-45"
-    
-  },
-];
+
 const Documment = ({ navigation }) => {
-  const HoldingDocumentInfo = ({ item, navigation }) => (
+  
+  const [schoolName, setSchoolName] = useState("");
+  const [listData, setListData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [filePath, setFilePath] = useState({});
+  useEffect(() => {
+    
+    let userId = firebase.auth().currentUser.uid;
+    firebase
+      .database()
+      .ref(`Users/${userId}/PersonalData`)
+      .on("value", (snapshot) => {
+        setSchoolName,(`${snapshot.val().schoolName}`);
+      })
+      listFilesAndDirectories();
+   
+  }, []);
+ 
+  const listFilesAndDirectories = (filePath, PageToken) => {
+    const reference = firebase
+    .storage()
+  
+    .ref(`files/`)
+    reference.listAll({PageToken}).then((result) => {
+      result.items.forEach((ref) => {
+        console.log("khetzo");
+        //console.log(result.items.result)
+
+      });
+ 
+      if (result.nextPageToken) {
+        return listFilesAndDirectories(
+          reference,
+          result.nextPageToken
+        );
+      }
+      setListData(result.items);
+      console.log("khetzo")
+
+     console.log(result)
+      
+      console.log("ListData");
+      console.log(result.nextPageToken);
+
+      setLoading( false);
+    });
+  };
+ 
+
+  const getItem = async (fullPath) => {
+    const url = await firebase.storage()
+      .ref(fullPath)
+      .getDownloadURL()
+      .catch((e) => {
+        console.error(e);
+      });
+    Linking.openURL(url);
+    console.log(url);
+  };
+
+
+
+  const HoldingDocumentInfo = ({ item }) => (
     <TouchableOpacity
       style={styles.itemContainer}
       onPress={() => {
@@ -60,10 +114,13 @@ const Documment = ({ navigation }) => {
       <View style={styles.discriptionBox}>
         <View style={styles.holdingTitleBox}>
           <Text style={[styles.text, { fontSize: 18, fontWeight: "600" }]}>
-            {item.title}
+         {item.name}
           </Text>
         </View>
-        <TouchableOpacity style={styles.buttonToDownload}>
+        <TouchableOpacity style={styles.buttonToDownload}
+        onPress ={()=>{
+          getItem(item.fullPath)
+        }}>
           <Text style={{fontSize:11}}>DOWNLOAD PDF</Text>
         </TouchableOpacity>
       </View>
@@ -96,9 +153,16 @@ const Documment = ({ navigation }) => {
           },
         ]}
       >
-        <View style={styles.InstutlName}>
+        <TouchableOpacity style={styles.InstutlName}
+      
+        onPress={  //() =>
+          listFilesAndDirectories
+          //getItem(item.fullPath)
+        
+        }
+        >
           <Text style={{ fontSize: 10 }}>Name of School</Text>
-        </View>
+        </TouchableOpacity>
         <View
           style={[
             styles.InstutlName,
@@ -112,9 +176,10 @@ const Documment = ({ navigation }) => {
         </View>
       </View>
       <FlatList
-        data={DocumentData}
+        data={listData}
         renderItem={HoldingDocumentInfo}
-        keyExtractor={(item) => item.id}
+       
+        keyExtractor={(item, index) => index.toString()}
         //  extraData={selectedId}
       />
     </View>

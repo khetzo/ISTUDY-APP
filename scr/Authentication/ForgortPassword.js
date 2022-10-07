@@ -82,7 +82,7 @@ export default function ForgotPassword({ navigation }) {
 }
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    //flex: 1,
     backgroundColor: "white",
     paddingTop: STATUSBAR_HEIGHT,
    justifyContent: "center",

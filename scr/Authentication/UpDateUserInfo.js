@@ -17,7 +17,7 @@ import {
   Modal,
 } from "react-native";
 import { AntDesign, EvilIcons } from "@expo/vector-icons";
-import firebase from "firebase";
+
 
 import Loader from "../Componet/Louder";
 //import { backgroundColor } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
@@ -105,17 +105,6 @@ const UpDateUserInfo = ({ navigation }) => {
   const [mejorsubject, setMejorsubject] = useState(" ");
 
 
-  useEffect(() => {
-    let userId = firebase.auth().currentUser.uid;
-    firebase
-      .database()
-      .ref(`Users/${userId}/PersonalData`)
-      .on("value", (snapshot) => {
-        setChooseGrade(`${snapshot.val().chooseGrade}`); // ohh damn, here is the problem...............
-        setMejorsubject(`${snapshot.val().mejorsubject}`);
-       
-      });
-  }, []);
 
   const markGrade = (item,chooseGrade) => {
     let userId = firebase.auth().currentUser.uid;
@@ -277,13 +266,7 @@ const UpDateUserInfo = ({ navigation }) => {
           />
         </View>
 
-        <View style={styles.greatings}>
-          <Text style={styles.buttonTextStyle}>Hello yourname</Text>
-          <Text style={styles.buttonTextStyle}>wellcome to schoolName </Text>
-          <Text style={styles.buttonTextStyle}>
-            complite the task as a position
-          </Text>
-        </View>
+        
         <Modal animationType="slide" transparent={true} visible={chooseStream}>
           <SafeAreaView>
             <TouchableOpacity

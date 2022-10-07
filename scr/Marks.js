@@ -1,3 +1,6 @@
+
+
+import React,{useState,useEffect} from "react"
 import {
   FlatList,
   SafeAreaView,
@@ -10,11 +13,12 @@ import {
   View,
   TextInput,
   Image,
+  Linking,
 } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Header from "./Componet/Header";
-
+import firebase from "firebase";
 const deviceHeight = Dimensions.get("window").height;
 const screenWidth = Dimensions.get("window").width;
 
@@ -41,7 +45,104 @@ id:"4-54-56-5-655-6"
     
   },
 ];
+
+
+
 const Marks = ({ navigation }) => {
+
+
+
+  const [markstData, setmMarkstData ] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [filePath, setFilePath] = useState({});
+  useEffect(() => {
+    listFilesAndDirectories("");
+  }, []);
+  
+  const listFilesAndDirectories = (filePath, PageToken) => {
+    const reference = firebase
+    .storage()
+    .ref("files/");
+    reference.listAll({PageToken}).then((result) => {
+      result.items.forEach((ref) => {
+        console.log("khetzo");
+        //console.log(result.items.result)
+  
+      });
+  
+      if (result.nextPageToken) {
+        return listFilesAndDirectories(
+          reference,
+          result.nextPageToken
+        );
+      }
+      setListData(result.items);
+      console.log("khetzo")
+  
+     console.log(result)
+      
+      console.log("ListData");
+      console.log(result.nextPageToken);
+  
+      setLoading( false);
+    });
+  };
+  
+  
+  const getItem = async (fullPath) => {
+    const url = await firebase.storage()
+      .ref(fullPath)
+      .getDownloadURL()
+      .catch((e) => {
+        console.error(e);
+      });
+    Linking.openURL(url);
+    console.log(url);
+  };
+  
+  
+  
+  const HoldingDocumentInfo = ({ item }) => (
+    <TouchableOpacity
+      style={styles.itemContainer}
+      onPress={() => {
+        alert("commiiiii");
+      }}
+    >
+      <View style={styles.iconBox}>
+        <Image
+          style={{
+            width: screenWidth * 0.15,
+            height: screenWidth * 0.15,
+          }}
+          source={require("./Image/document.jpg")}
+        />
+      </View>
+      <View style={styles.discriptionBox}>
+        <View style={styles.holdingTitleBox}>
+          <Text style={[styles.text, { fontSize: 18, fontWeight: "600" }]}>
+         {item.name}
+          </Text>
+        </View>
+        <TouchableOpacity style={styles.buttonToDownload}>
+          <Text style={{fontSize:11}}>DOWNLOAD PDF</Text>
+        </TouchableOpacity>
+      </View>
+      <View
+        style={[
+          styles.iconBox,
+          {
+            backgroundColor: "#DFDFDF",
+            width: "10%",
+            height: "50%",
+            borderRadius: 9,
+          },
+        ]}
+      ></View>
+    </TouchableOpacity>
+  );
+
+
   const HoldingMakstInfo = ({ item, navigation }) => (
     <TouchableOpacity
       style={styles.itemContainer}

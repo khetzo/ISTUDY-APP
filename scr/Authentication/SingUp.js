@@ -32,7 +32,73 @@ const DEVICE_HEIGHT = Platform.select({
       ? deviceHeight
       : deviceHeight - StatusBar.currentHeight,
 });
+const DAtaForGrade = [
+  {
+    gradeLogo:
+      "https://www.careersportal.co.za/sites/default/files/images/Bronwyn/grade9.png",
 
+    schoolName: "Mukula Integrated School",
+    grade: 9,
+  },
+  {
+    gradeLogo: "https://blikbrein.tv/wp-content/uploads/Grade-10.jpg",
+
+    schoolName: "Mukula Integrated School",
+    grade: 10,
+  },
+  {
+    gradeLogo:
+      "https://s3.amazonaws.com/readingvine-prod/uploads/production/category_value/image/12/11th-Grade-Reading-Comprehension.jpg",
+
+    schoolName: "Mukula Integrated School",
+    grade: 11,
+  },
+  {
+    gradeLogo:
+      "https://play-lh.googleusercontent.com/w3g2rX3oTFcKwh0i3bMpY8yYriVP2g6o48cayjTPp7FoRIiEE8KHdePf-f37uZmVRg",
+    schoolName: "Mukula Integrated School",
+    grade: 12,
+  },
+];
+const DAtaForSubjects = [
+  {
+    subjectName: "Math and Science",
+subject_logo:"https://cdn4.vectorstock.com/i/1000x1000/30/08/science-vector-20753008.jpg",
+    id: "122-28-44-45",
+  },
+  {
+    subjectName: "Economics and bussiness ",
+
+    subject_logo:"https://cdn.corporatefinanceinstitute.com/assets/economics.jpeg",
+
+
+    id: "125-96-84-43",
+  },
+  {
+    subjectName: "History",
+    subject_logo:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS99I75U1U6zdnGjKfOegROHUnW2SGkHARUCQPbzJY7ZaHuNPjngEsLQIoFglPrjUMFwZI&usqp=CAU",
+
+    id: "122-23-99-45",
+  },
+  {
+    subjectName: "Geography",
+    subject_logo:"https://img.freepik.com/premium-vector/modern-color-thin-line-concept-geography_655667-35.jpg",
+
+    id: "132-345-47",
+  },
+  {
+    subjectName: "Agriculture",
+    subject_logo:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQV1dGsanNPWz8XG2tK3oo-hUNtQP3FxPzfXg&usqp=CAU",
+
+    id: "186-25-19",
+  },
+  {
+    subjectName: "Home-Language",
+    subject_logo:"https://www.rutufoundation.org/what-is-mother-tongue-education/",
+
+    id: "256-67-12",
+  },
+];
 const SingUp = ({ navigation }) => {
   const [userName, setUserName] = useState("");
   const [userEmail, setUserEmail] = useState("");
@@ -42,16 +108,18 @@ const SingUp = ({ navigation }) => {
   const [refCode, setRefCode] = useState("");
   const [schoolName, setSchoolName] = useState("");
   const [position, setPosition] = useState("");
+  //modal of chooseing a stream
+  const [chooseStream, setChooseStream] = useState(false);
 
+  const [isRegistraionSuccess, setIsRegistraionSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errortext, setErrortext] = useState("");
   const [getGrade, setGetGrade] = useState(false);
   //modal of chooseing a stream
- 
 
   //selected grade and mejor subject must be stored to the useState
-const [chooseGrade, setChooseGrade] = useState(" ");
- const[mejorsubject,setMejorsubject]=useState(" ");
+  const [chooseGrade, setChooseGrade] = useState(" ");
+  const [mejorsubject, setMejorsubject] = useState(" ");
   const emailInputRef = createRef();
 
   const phoneNumberInputRef = createRef();
@@ -84,7 +152,7 @@ const [chooseGrade, setChooseGrade] = useState(" ");
 
   const handleSubmitButton = () => {
     // setErrortext('');
-    console.log("kjhgfdghj")
+    
     if (userName === "") {
       alert("Please enter your surname and full names before proceeding");
     } else if (userEmail === "") {
@@ -101,12 +169,10 @@ const [chooseGrade, setChooseGrade] = useState(" ");
       alert("Passwords do not match");
     } else {
       processRefCode();
-     
     }
   };
 
   const processRefCode = () => {
-  
     let learnerRef = schoolsRefs.find((o) => o.learnerCode === refCode);
     let teacherRef = schoolsRefs.find((o) => o.teacherCode === refCode);
     let adminRef = schoolsRefs.find((o) => o.adminCode === refCode);
@@ -117,7 +183,9 @@ const [chooseGrade, setChooseGrade] = useState(" ");
     } else if (adminRef) {
       signUpUser("Admin", adminRef.schoolName);
     } else {
-      alert("Your reference code is invalid,to get your refCode please contact IT team 0767786789 ");
+      alert(
+        "Your reference code is invalid,to get your refCode please contact IT team 0767786789 "
+      );
     }
   };
 
@@ -146,12 +214,13 @@ const [chooseGrade, setChooseGrade] = useState(" ");
             mejorsubject,
           })
           .then(() => {
-            if (position == "learner") {
-            navigation.navigate("UpDateUserInfo");
-            } else if (position == "teacherCode") {
-              navigation.navigate("MainScreen");
+            if (position == "Learner") {
+              navigation.navigate("UpDateUserInfo");
+            } else if (position == "Teacher") {
+            navigation.navigate("MainScreen");
+             setIsRegistraionSuccess(true)
             } else {
-              navigation.navigate("MainScreen");
+              alert("somthing went wrong");
             }
           });
       })
@@ -160,11 +229,187 @@ const [chooseGrade, setChooseGrade] = useState(" ");
         setLoading(false);
       });
   };
-  // the funtion to select the grade the go the the spesefict= subject to select 9 subject
-  
+  const selectGrade = ({ item }) => (
+    <TouchableOpacity
+      style={styles.gradeBox}
+      activeOpacity={0.5}
+      onPress={() => {
+        setChooseStream(!chooseStream);
+      
+      }}
+    >
+      <View style={styles.gradeicon}>
+        <Image style={styles.gradeicon} source={{ uri: item.gradeLogo }} />
+      </View>
 
+      <View style={styles.gradeNumber}>
+        <Text style={[styles.text, { fontSize: 18, fontWeight: "600" }]}>
+          GRADE {item.grade}
+        </Text>
+      </View>
+    </TouchableOpacity>
+  );
 
- 
+  const markSubjects = ({ item }) => (
+    <TouchableOpacity
+      style={styles.subjectBox}
+      activeOpacity={5}
+      onPress={() => {
+        // setChooseStream(!chooseStream);
+      
+       navigation.navigate("MainScreen");
+      }}
+    >
+      <Image
+        style={[
+          styles.gradeicon,
+          {
+            width: screenWidth * 0.16,
+            height: screenWidth * 0.16,
+            justifyContent: "center",
+            alignItems: "center",
+          },
+        ]}
+        source={{ uri: item.subject_logo }}
+     />
+
+      <View style={styles.subjectCountainer}>
+        <Text
+          style={[
+            styles.text,
+            { fontSize: 15, fontWeight: "900", fontVariant: ["small-caps"] },
+          ]}
+        >
+          {item.subjectName}
+        </Text>
+
+        
+        <View
+          style={[
+            styles.gradeicon,
+            {
+              width: screenWidth * 0.2,
+              borderWidth: 0.04,
+             // backgroundColor: "white",
+              height: deviceHeight * 0.03,
+              justifyContent: "center",
+              alignItems: "center",
+             // alignSelf:"center",
+              marginTop: 11,
+            },
+          ]}
+        >
+          <Text style={[styles.text, { fontSize: 14, fontWeight: "800" }]}>
+            Join now
+          </Text>
+        </View>
+      </View>
+    </TouchableOpacity>
+  );
+
+  if (isRegistraionSuccess == true) {
+    return (
+      <ScrollView
+        contentContainerStyle={{
+          justifyContent: "center",
+          alignContent: "center",
+          flex: 1,
+          // height: midleInputPressed
+          // ?  DEVICE_HEIGHT * 0.25
+          // : DEVICE_HEIGHT * 0.82,
+        }}
+      >
+        <View
+          style={{
+            // backgroundColor: "#307ecc",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <View style={styles.iconToshowProgress}>
+            <Text
+              style={{
+                fontSize: 100,
+
+                color: "pink",
+                fontWeight: "bold",
+              }}
+            >
+              <EvilIcons name="check" size={104} color="black" />
+            </Text>
+          </View>
+          <Text
+            style={{
+              color: "black",
+              textAlign: "center",
+              fontSize: 15,
+              padding: 1,
+            }}
+          >
+            -----------------------------------------------
+          </Text>
+          <Text style={styles.successTextStyle}>
+          {'Select the Grade(s)  '}
+          </Text>
+
+          {/**PUT THE FLATLIST */}
+          <View style={styles.flatlistgound}>
+            <FlatList
+              data={DAtaForGrade}
+              renderItem={selectGrade}
+              keyExtractor={(item) => item.grade}
+              //  extraData={selectedId}
+              horizontal={true}
+            />
+          </View>
+
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={chooseStream}
+          >
+            <SafeAreaView>
+              <TouchableOpacity
+                style={styles.modalcallsCuncell}
+                activeOpacity={5}
+                onPress={() => {
+                  setChooseStream(!chooseStream);
+                }}
+              ></TouchableOpacity>
+              <View style={styles.modalStream}>
+                <View style={styles.heading}>
+                  <Text
+                    style={{
+                      fontSize: 23,
+                      fontWeight: "300",
+                      marginVertical: 2,
+                    }}
+                  >
+                    CHoose the subject you'll be teaching
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: 13,
+                      fontWeight: "300",
+                      marginVertical: 2,
+                    }}
+                  >
+                    wellcome to Grade {chooseGrade}
+                  </Text>
+                </View>
+                <FlatList
+                  data={DAtaForSubjects}
+                  renderItem={markSubjects}
+                  keyExtractor={(item) => item.subjectName}
+                  //  extraData={selectedId}
+                />
+              </View>
+            </SafeAreaView>
+          </Modal>
+        </View>
+      </ScrollView>
+    );
+  }
 
   return (
     <View style={{ flex: 1, backgroundColor: "#E7E7E7" }}>
@@ -293,9 +538,10 @@ const [chooseGrade, setChooseGrade] = useState(" ");
             style={styles.buttonStyle}
             activeOpacity={0.5}
             onPress={
+              
           
-               
-              handleSubmitButton
+             handleSubmitButton
+            
             }
           >
             <Text style={styles.buttonTextStyle}>NEXT</Text>
@@ -334,7 +580,7 @@ const styles = StyleSheet.create({
     // padding:5
   },
   buttonTextStyle: {
-    color: "black",
+    color: "white",
 
     paddingVertical: 10,
     fontSize: 18,
@@ -357,7 +603,8 @@ const styles = StyleSheet.create({
   successTextStyle: {
     color: "black",
     textAlign: "center",
-    fontSize: 18,
+    fontSize: 20,
+    fontWeight:"bold",
     padding: 30,
   },
   flatlistgound: {

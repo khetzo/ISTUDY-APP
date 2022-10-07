@@ -16,6 +16,7 @@ import Marks from "./scr/Marks";
 import Studentpage from "./scr/Studentpage";
 import upDateUserInfo from "./scr/Authentication/UpDateUserInfo";
 import Chats from "./scr/Chats";
+
 //For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyBPsCql9__xc1ctRAbvMmc1b40_disItRQ",
@@ -67,7 +68,7 @@ const Auth = () => {
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="upDateUserInfo">
+      <Stack.Navigator initialRouteName="Splash">
         <Stack.Screen
           name="Splash"
           component={Splash}

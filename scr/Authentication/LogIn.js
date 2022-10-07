@@ -29,6 +29,55 @@ const DEVICE_HEIGHT = Platform.select({
       ? deviceHeight
       : deviceHeight - StatusBar.currentHeight,
 });
+
+
+
+const k = ()=>{
+
+ 
+ 
+  return (
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: '#307ecc',
+        justifyContent: 'center',
+      }}>
+      <Image
+      //  source={require('../Image/success.png')}
+        style={{
+          height: 150,
+          resizeMode: 'contain',
+          alignSelf: 'center'
+        }}
+      />
+      <Text style={styles.successTextStyle}>
+        Registration Successful
+      </Text>
+      <TouchableOpacity
+        style={{ backgroundColor: '#7DE24E',
+        borderWidth: 0,
+        color: '#FFFFFF',
+        borderColor: '#7DE24E',
+        height: 40,
+        alignItems: 'center',
+        borderRadius: 30,
+        marginLeft: 35,
+        marginRight: 35,
+        marginTop: 20,
+        marginBottom: 20,}}
+        activeOpacity={0.5}
+        onPress={() => props.navigation.navigate('LoginScreen')}>
+        <Text style={styles.buttonTextStyle}>Login Now</Text>
+      </TouchableOpacity>
+    </View>
+  );
+
+
+}
+
+
+
 const LogIn = ({ navigation }) => {
   const [existEmail, setExistEmail] = useState("");
   const [existPassword, setExistPassword] = useState("");
@@ -66,10 +115,9 @@ const LogIn = ({ navigation }) => {
 
               if (position == "Learner") {
                 navigation.navigate("Studentpage");
-              } else if (position == "teacherCode") {
-                navigation.navigate("MainScreen");
               } else {
-                alert("unrecognised from database")
+                navigation.navigate("MainScreen");
+               
                 //navigation.navigate("Studentpage");
               }
               setLoading(false);
@@ -83,6 +131,11 @@ const LogIn = ({ navigation }) => {
     }
   };
 
+
+
+
+
+  
   return (
     <View style={styles.countaner}>
       <ScrollView
@@ -167,7 +220,11 @@ const LogIn = ({ navigation }) => {
                 styles.registerTextStyle,
                 { color: "black", alignSelf: "flex-start", marginLeft: 40 },
               ]}
-             onPress={() => navigation.navigate("GradeInfor") }
+             onPress={() => 
+              
+              
+             navigation.navigate("ForgortPassword") 
+            }
             >
               Forgot Password ?
             </Text>

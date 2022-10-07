@@ -7,10 +7,11 @@ const Splash = ({ navigation }) => {
   const [animating, setAnimating] = useState(true);
 
   useEffect(()=>{
-
+  
      setTimeout(()=>{
 setAnimating(false);
 AsyncStorage.getItem('user_id').then((value)=>navigation.replace(
+  
     value ===null? "Auth":"SchoolAdmin"
 ),);
 
