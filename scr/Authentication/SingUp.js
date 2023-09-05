@@ -32,32 +32,32 @@ const DEVICE_HEIGHT = Platform.select({
       ? deviceHeight
       : deviceHeight - StatusBar.currentHeight,
 });
-const DAtaForGrade = [
+const DAtaFormarket = [
   {
-    gradeLogo:
-      "https://www.careersportal.co.za/sites/default/files/images/Bronwyn/grade9.png",
+    marketLogo:
+      "https://www.careersportal.co.za/sites/default/files/images/Bronwyn/market9.png",
 
     schoolName: "Mukula Integrated School",
-    grade: 9,
+    market: 9,
   },
   {
-    gradeLogo: "https://blikbrein.tv/wp-content/uploads/Grade-10.jpg",
+    marketLogo: "https://blikbrein.tv/wp-content/uploads/market-10.jpg",
 
     schoolName: "Mukula Integrated School",
-    grade: 10,
+    market: 10,
   },
   {
-    gradeLogo:
-      "https://s3.amazonaws.com/readingvine-prod/uploads/production/category_value/image/12/11th-Grade-Reading-Comprehension.jpg",
+    marketLogo:
+      "https://s3.amazonaws.com/readingvine-prod/uploads/production/category_value/image/12/11th-market-Reading-Comprehension.jpg",
 
     schoolName: "Mukula Integrated School",
-    grade: 11,
+    market: 11,
   },
   {
-    gradeLogo:
+    marketLogo:
       "https://play-lh.googleusercontent.com/w3g2rX3oTFcKwh0i3bMpY8yYriVP2g6o48cayjTPp7FoRIiEE8KHdePf-f37uZmVRg",
     schoolName: "Mukula Integrated School",
-    grade: 12,
+    market: 12,
   },
 ];
 const DAtaForSubjects = [
@@ -114,11 +114,11 @@ const SingUp = ({ navigation }) => {
   const [isRegistraionSuccess, setIsRegistraionSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errortext, setErrortext] = useState("");
-  const [getGrade, setGetGrade] = useState(false);
+  const [getmarket, setGetmarket] = useState(false);
   //modal of chooseing a stream
 
-  //selected grade and mejor subject must be stored to the useState
-  const [chooseGrade, setChooseGrade] = useState(" ");
+  //selected market and mejor subject must be stored to the useState
+  const [choosemarket, setChoosemarket] = useState(" ");
   const [mejorsubject, setMejorsubject] = useState(" ");
   const emailInputRef = createRef();
 
@@ -210,7 +210,7 @@ const SingUp = ({ navigation }) => {
             userId,
             position,
             schoolName,
-            chooseGrade,
+            choosemarket,
             mejorsubject,
           })
           .then(() => {
@@ -229,22 +229,22 @@ const SingUp = ({ navigation }) => {
         setLoading(false);
       });
   };
-  const selectGrade = ({ item }) => (
+  const selectmarket = ({ item }) => (
     <TouchableOpacity
-      style={styles.gradeBox}
+      style={styles.marketBox}
       activeOpacity={0.5}
       onPress={() => {
         setChooseStream(!chooseStream);
       
       }}
     >
-      <View style={styles.gradeicon}>
-        <Image style={styles.gradeicon} source={{ uri: item.gradeLogo }} />
+      <View style={styles.marketicon}>
+        <Image style={styles.marketicon} source={{ uri: item.marketLogo }} />
       </View>
 
-      <View style={styles.gradeNumber}>
+      <View style={styles.marketNumber}>
         <Text style={[styles.text, { fontSize: 18, fontWeight: "600" }]}>
-          GRADE {item.grade}
+          market {item.market}
         </Text>
       </View>
     </TouchableOpacity>
@@ -262,7 +262,7 @@ const SingUp = ({ navigation }) => {
     >
       <Image
         style={[
-          styles.gradeicon,
+          styles.marketicon,
           {
             width: screenWidth * 0.16,
             height: screenWidth * 0.16,
@@ -286,7 +286,7 @@ const SingUp = ({ navigation }) => {
         
         <View
           style={[
-            styles.gradeicon,
+            styles.marketicon,
             {
               width: screenWidth * 0.2,
               borderWidth: 0.04,
@@ -349,15 +349,15 @@ const SingUp = ({ navigation }) => {
             -----------------------------------------------
           </Text>
           <Text style={styles.successTextStyle}>
-          {'Select the Grade(s)  '}
+          {'Select the market(s)  '}
           </Text>
 
           {/**PUT THE FLATLIST */}
           <View style={styles.flatlistgound}>
             <FlatList
-              data={DAtaForGrade}
-              renderItem={selectGrade}
-              keyExtractor={(item) => item.grade}
+              data={DAtaFormarket}
+              renderItem={selectmarket}
+              keyExtractor={(item) => item.market}
               //  extraData={selectedId}
               horizontal={true}
             />
@@ -394,7 +394,7 @@ const SingUp = ({ navigation }) => {
                       marginVertical: 2,
                     }}
                   >
-                    wellcome to Grade {chooseGrade}
+                    wellcome to market {choosemarket}
                   </Text>
                 </View>
                 <FlatList
@@ -615,7 +615,7 @@ const styles = StyleSheet.create({
 
     alignItems: "center",
   },
-  gradeBox: {
+  marketBox: {
     margin: 7,
     height: "90%",
     width: screenWidth * 0.4,
@@ -633,14 +633,14 @@ const styles = StyleSheet.create({
     elevation: 9,
     borderRadius: 8,
   },
-  gradeicon: {
+  marketicon: {
     height: screenWidth * 0.3,
     width: screenWidth * 0.3,
 
     backgroundColor: "gray",
     borderRadius: 800,
   },
-  gradeNumber: {
+  marketNumber: {
     height: screenWidth * 0.08,
     width: screenWidth * 0.3,
     backgroundColor: "gray",

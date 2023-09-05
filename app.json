@@ -3,6 +3,7 @@
     "name": "ISTUDY",
     "slug": "khetzo",
     "version": "1.0.0",
+    "sdkVersion": "47.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -31,6 +32,11 @@
       "favicon": "./assets/icon.png"
     },
     "description": "funtions {log in page ,forget password,registrationg, difarentiate between admin and student  and direct them to thier spescefic page}",
-    "githubUrl": "https://github.com/khetzo/ISTUDY-APP.git"
+    "githubUrl": "https://github.com/khetzo/ISTUDY-APP.git",
+    "extra": {
+      "eas": {
+        "projectId": "2d586dba-c7b0-4345-9d1b-ff63fda6fbb5"
+      }
+    }
   }
 }

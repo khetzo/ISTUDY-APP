@@ -249,6 +249,10 @@ const LogIn = ({ navigation }) => {
             <Text
               style={styles.registerTextStyle}
               onPress={() => navigation.navigate("SingUp")}
+
+
+
+              
             >
               New Here ? Register
             </Text>
@@ -271,6 +275,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "white",
     alignContent: "center",
+   // paddingTop: Constants.statusBarHeight,
   },
   SectionStyle: {
     flexDirection: "row",
